@@ -1,5 +1,6 @@
 package com.example.android.lifecycleawaregithubsearch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GitHubSearchAdapter.OnSearchResultClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String SEARCH_RESULTS_LIST_KEY = "MainActivity.searchResultsList";
 
     private RecyclerView searchResultsRV;
     private EditText searchBoxET;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
 
     private GitHubSearchAdapter githubSearchAdapter;
     private RequestQueue requestQueue;
+
+    private ArrayList<GitHubRepo> searchResultsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,20 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
                 }
             }
         });
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(SEARCH_RESULTS_LIST_KEY)) {
+            this.searchResultsList = (ArrayList) savedInstanceState.getSerializable(SEARCH_RESULTS_LIST_KEY);
+            this.githubSearchAdapter.updateSearchResults(this.searchResultsList);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+        if (this.searchResultsList != null) {
+            outState.putSerializable(SEARCH_RESULTS_LIST_KEY, this.searchResultsList);
+        }
     }
 
     @Override
@@ -107,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ArrayList<GitHubRepo> searchResultsList = GitHubUtils.parseGitHubSearchResults(response);
+                        searchResultsList = GitHubUtils.parseGitHubSearchResults(response);
                         githubSearchAdapter.updateSearchResults(searchResultsList);
                         loadingIndicatorPB.setVisibility(View.INVISIBLE);
                         searchResultsRV.setVisibility(View.VISIBLE);
