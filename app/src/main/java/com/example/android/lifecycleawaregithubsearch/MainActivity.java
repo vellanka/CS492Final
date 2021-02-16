@@ -2,6 +2,8 @@ package com.example.android.lifecycleawaregithubsearch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,9 +24,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.android.lifecycleawaregithubsearch.data.GitHubRepo;
+import com.example.android.lifecycleawaregithubsearch.data.LoadingStatus;
 import com.example.android.lifecycleawaregithubsearch.utils.GitHubUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GitHubSearchAdapter.OnSearchResultClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
     private TextView errorMessageTV;
 
     private GitHubSearchAdapter githubSearchAdapter;
+    private GitHubSearchViewModel githubSearchViewModel;
+
     private RequestQueue requestQueue;
 
     private ArrayList<GitHubRepo> searchResultsList;
@@ -57,7 +63,40 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
         this.githubSearchAdapter = new GitHubSearchAdapter(this);
         this.searchResultsRV.setAdapter(this.githubSearchAdapter);
 
-        this.requestQueue = Volley.newRequestQueue(this);
+//        this.requestQueue = Volley.newRequestQueue(this);
+
+        this.githubSearchViewModel = new ViewModelProvider(this)
+                .get(GitHubSearchViewModel.class);
+
+        this.githubSearchViewModel.getSearchResults().observe(
+                this,
+                new Observer<List<GitHubRepo>>() {
+                    @Override
+                    public void onChanged(List<GitHubRepo> gitHubRepos) {
+                        githubSearchAdapter.updateSearchResults(gitHubRepos);
+                    }
+                }
+        );
+
+        this.githubSearchViewModel.getLoadingStatus().observe(
+                this,
+                new Observer<LoadingStatus>() {
+                    @Override
+                    public void onChanged(LoadingStatus loadingStatus) {
+                        if (loadingStatus == LoadingStatus.LOADING) {
+                            loadingIndicatorPB.setVisibility(View.VISIBLE);
+                        } else if (loadingStatus == LoadingStatus.SUCCESS) {
+                            loadingIndicatorPB.setVisibility(View.INVISIBLE);
+                            searchResultsRV.setVisibility(View.VISIBLE);
+                            errorMessageTV.setVisibility(View.INVISIBLE);
+                        } else {
+                            loadingIndicatorPB.setVisibility(View.INVISIBLE);
+                            searchResultsRV.setVisibility(View.INVISIBLE);
+                            errorMessageTV.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+        );
 
         Button searchButton = (Button)findViewById(R.id.btn_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -65,25 +104,26 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
             public void onClick(View v) {
                 String searchQuery = searchBoxET.getText().toString();
                 if (!TextUtils.isEmpty(searchQuery)) {
-                    doGitHubSearch(searchQuery);
+//                    doGitHubSearch(searchQuery);
+                    githubSearchViewModel.loadSearchResults(searchQuery);
                 }
             }
         });
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(SEARCH_RESULTS_LIST_KEY)) {
-            this.searchResultsList = (ArrayList) savedInstanceState.getSerializable(SEARCH_RESULTS_LIST_KEY);
-            this.githubSearchAdapter.updateSearchResults(this.searchResultsList);
-        }
+//        if (savedInstanceState != null && savedInstanceState.containsKey(SEARCH_RESULTS_LIST_KEY)) {
+//            this.searchResultsList = (ArrayList) savedInstanceState.getSerializable(SEARCH_RESULTS_LIST_KEY);
+//            this.githubSearchAdapter.updateSearchResults(this.searchResultsList);
+//        }
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.d(TAG, "onSaveInstanceState()");
-        super.onSaveInstanceState(outState);
-        if (this.searchResultsList != null) {
-            outState.putSerializable(SEARCH_RESULTS_LIST_KEY, this.searchResultsList);
-        }
-    }
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        Log.d(TAG, "onSaveInstanceState()");
+//        super.onSaveInstanceState(outState);
+//        if (this.searchResultsList != null) {
+//            outState.putSerializable(SEARCH_RESULTS_LIST_KEY, this.searchResultsList);
+//        }
+//    }
 
     @Override
     protected void onStart() {
@@ -115,37 +155,37 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
         super.onDestroy();
     }
 
-    private void doGitHubSearch(String query) {
-        String url = GitHubUtils.buildGitHubSearchURL(query);
-        Log.d(TAG, "searching with this URL: " + url);
-
-        StringRequest req = new StringRequest(
-                Request.Method.GET,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        searchResultsList = GitHubUtils.parseGitHubSearchResults(response);
-                        githubSearchAdapter.updateSearchResults(searchResultsList);
-                        loadingIndicatorPB.setVisibility(View.INVISIBLE);
-                        searchResultsRV.setVisibility(View.VISIBLE);
-                        errorMessageTV.setVisibility(View.INVISIBLE);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        loadingIndicatorPB.setVisibility(View.INVISIBLE);
-                        searchResultsRV.setVisibility(View.INVISIBLE);
-                        errorMessageTV.setVisibility(View.VISIBLE);
-                    }
-                }
-        );
-
-        loadingIndicatorPB.setVisibility(View.VISIBLE);
-        this.requestQueue.add(req);
-    }
+//    private void doGitHubSearch(String query) {
+//        String url = GitHubUtils.buildGitHubSearchURL(query);
+//        Log.d(TAG, "searching with this URL: " + url);
+//
+//        StringRequest req = new StringRequest(
+//                Request.Method.GET,
+//                url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        searchResultsList = GitHubUtils.parseGitHubSearchResults(response);
+//                        githubSearchAdapter.updateSearchResults(searchResultsList);
+//                        loadingIndicatorPB.setVisibility(View.INVISIBLE);
+//                        searchResultsRV.setVisibility(View.VISIBLE);
+//                        errorMessageTV.setVisibility(View.INVISIBLE);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        error.printStackTrace();
+//                        loadingIndicatorPB.setVisibility(View.INVISIBLE);
+//                        searchResultsRV.setVisibility(View.INVISIBLE);
+//                        errorMessageTV.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//        );
+//
+//        loadingIndicatorPB.setVisibility(View.VISIBLE);
+//        this.requestQueue.add(req);
+//    }
 
     @Override
     public void onSearchResultClicked(GitHubRepo repo) {
