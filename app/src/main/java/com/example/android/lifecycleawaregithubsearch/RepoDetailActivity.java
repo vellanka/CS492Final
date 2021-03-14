@@ -32,15 +32,15 @@ public class RepoDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(EXTRA_GITHUB_REPO)) {
             this.repo = (GitHubRepo)intent.getSerializableExtra(EXTRA_GITHUB_REPO);
-            Log.d(TAG, "Got repo with name: " + repo.fullName);
+            Log.d(TAG, "Got repo with name: " + repo.name);
 
             TextView repoNameTV = findViewById(R.id.tv_repo_name);
             TextView repoStarsTV = findViewById(R.id.tv_repo_stars);
             TextView repoDescriptionTV = findViewById(R.id.tv_repo_description);
 
-            repoNameTV.setText(repo.fullName);
-            repoStarsTV.setText(String.valueOf(repo.stars));
-            repoDescriptionTV.setText(repo.description);
+            repoNameTV.setText(repo.name);
+//            repoStarsTV.setText(String.valueOf(repo.stars));
+//            repoDescriptionTV.setText(repo.description);
         }
     }
 
@@ -53,9 +53,6 @@ public class RepoDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_view_on_web:
-                viewRepoOnWeb();
-                return true;
             case R.id.action_share:
                 shareRepo();
                 return true;
@@ -84,7 +81,7 @@ public class RepoDetailActivity extends AppCompatActivity {
         if (this.repo != null) {
             String shareText = getString(
                     R.string.share_repo_text,
-                    this.repo.fullName,
+                    this.repo.name,
                     this.repo.htmlUrl
             );
             Intent intent = new Intent(Intent.ACTION_SEND);

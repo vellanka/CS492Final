@@ -70,7 +70,7 @@ public class GitHubSearchAdapter extends RecyclerView.Adapter<GitHubSearchAdapte
         }
 
         void bind(GitHubRepo repo) {
-            this.searchResultTV.setText(repo.fullName);
+            this.searchResultTV.setText(repo.name);
         }
     }
 }

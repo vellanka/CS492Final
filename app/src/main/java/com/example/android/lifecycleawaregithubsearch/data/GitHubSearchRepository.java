@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GitHubSearchRepository {
     private static final String TAG = GitHubSearchRepository.class.getSimpleName();
-    private static final String BASE_URL = "https://api.github.com";
+    private static final String BASE_URL = "http://www.bloowatch.org";
 
     private MutableLiveData<List<GitHubRepo>> searchResults;
     private MutableLiveData<LoadingStatus> loadingStatus;

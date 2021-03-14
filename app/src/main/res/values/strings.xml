@@ -1,9 +1,18 @@
 <resources>
-    <string name="app_name">Lifecycle Aware GitHubSearch</string>
+    <string name="app_name">Endangered Animals</string>
     <string name="loading_error">Unable to execute search.  Please check your internet connection.</string>
 
     <string name="action_share">Share</string>
     <string name="action_view_on_web">View repo on GitHub.com</string>
+
+    <string name="action_profile_title">Profile</string>
+
+    <string name="pref_userName_title">Your name.</string>
+    <string name="pref_userName_key" translatable="false">pref_userName</string>
+    <string name="pref_userName_default">Animal Lover</string>
+    <string name="pref_favAnimal_title">Your favorite animal.</string>
+    <string name="pref_favAnimal_key" translatable="false">pref_favAnimal</string>
+    <string name="pref_favAnimal_default" translatable="false">blue-whale</string>
 
     <string name="share_repo_text">Check out this GitHub repo I found in the CS 492 App 🤓 %1$s (%2$s)</string>
 </resources>

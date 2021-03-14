@@ -6,7 +6,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface GitHubService {
-    @GET("search/repositories?sort=stars")
+    @GET("developers/json/species")
     Call<GitHubSearchResults> searchRepos(@Query("q") String query);
 
 //    @GET("search/repositories/{q}")

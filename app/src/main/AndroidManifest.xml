@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitHubSearch">
         <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
             android:name="com.example.android.lifecycleawaregithubsearch.RepoDetailActivity"
             android:parentActivityName="com.example.android.lifecycleawaregithubsearch.MainActivity">
         </activity>

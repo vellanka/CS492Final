@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -155,6 +157,24 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
         super.onDestroy();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_profile:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 //    private void doGitHubSearch(String query) {
 //        String url = GitHubUtils.buildGitHubSearchURL(query);
 //        Log.d(TAG, "searching with this URL: " + url);
@@ -189,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
 
     @Override
     public void onSearchResultClicked(GitHubRepo repo) {
-        Log.d(TAG, "Search result clicked: " + repo.fullName);
+        Log.d(TAG, "Search result clicked: " + repo.name);
         Intent intent = new Intent(this, RepoDetailActivity.class);
         intent.putExtra(RepoDetailActivity.EXTRA_GITHUB_REPO, repo);
         startActivity(intent);
