@@ -29,8 +29,14 @@ import com.example.android.lifecycleawaregithubsearch.data.GitHubRepo;
 import com.example.android.lifecycleawaregithubsearch.data.LoadingStatus;
 import com.example.android.lifecycleawaregithubsearch.utils.GitHubUtils;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements GitHubSearchAdapter.OnSearchResultClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -50,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
+
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -109,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
 //                    doGitHubSearch(searchQuery);
                     githubSearchViewModel.loadSearchResults(searchQuery);
                 }
+
             }
         });
 
