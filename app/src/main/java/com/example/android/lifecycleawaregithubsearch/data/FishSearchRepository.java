@@ -7,24 +7,31 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GitHubSearchRepository {
-    private static final String TAG = GitHubSearchRepository.class.getSimpleName();
-    private static final String BASE_URL = "http://www.bloowatch.org";
+public class FishSearchRepository {
+    private static final String TAG = FishSearchRepository.class.getSimpleName();
+    //private static final String BASE_URL = "http://www.bloowatch.org";
+    private static final String BASE = "https://www.fishwatch.gov/api/";
 
-    private MutableLiveData<List<GitHubRepo>> searchResults;
+    private MutableLiveData<List<FishData>> searchResults;
     private MutableLiveData<LoadingStatus> loadingStatus;
 
     private String currentQuery;
 
-    private GitHubService gitHubService;
+    //need new service here
+   // private GitHubService gitHubService;
+    private FishService fishService;
 
-    public GitHubSearchRepository() {
+    public FishSearchRepository() {
         this.searchResults = new MutableLiveData<>();
         this.searchResults.setValue(null);
 
@@ -32,13 +39,14 @@ public class GitHubSearchRepository {
         this.loadingStatus.setValue(LoadingStatus.SUCCESS);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        this.gitHubService = retrofit.create(GitHubService.class);
+
+        this.fishService = retrofit.create(FishService.class);
     }
 
-    public LiveData<List<GitHubRepo>> getSearchResults() {
+    public LiveData<List<FishData>> getSearchResults() {
         return this.searchResults;
     }
 
@@ -52,20 +60,24 @@ public class GitHubSearchRepository {
             this.searchResults.setValue(null);
             this.loadingStatus.setValue(LoadingStatus.LOADING);
             Log.d(TAG, "running new search for this query: " + query);
-            Call<GitHubSearchResults> results = this.gitHubService.searchRepos(query);
-            results.enqueue(new Callback<GitHubSearchResults>() {
+
+            Call<FishSearchResults> results = this.fishService.searchRepos(query);
+            Log.d(TAG, "printing results: " + results.toString());
+            results.enqueue(new Callback<FishSearchResults>() {
                 @Override
-                public void onResponse(Call<GitHubSearchResults> call, Response<GitHubSearchResults> response) {
+                public void onResponse(Call<FishSearchResults> call, Response<FishSearchResults> response) {
                     if (response.code() == 200) {
+                        Log.d(TAG, "suc cessful response");
                         searchResults.setValue(response.body().items);
                         loadingStatus.setValue(LoadingStatus.SUCCESS);
                     } else {
+                        Log.d(TAG, "unsuccessful response");
                         loadingStatus.setValue(LoadingStatus.ERROR);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<GitHubSearchResults> call, Throwable t) {
+                public void onFailure(Call<FishSearchResults> call, Throwable t) {
                     t.printStackTrace();
                     loadingStatus.setValue(LoadingStatus.ERROR);
                 }

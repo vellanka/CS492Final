@@ -25,9 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.android.lifecycleawaregithubsearch.data.FishData;
 import com.example.android.lifecycleawaregithubsearch.data.GitHubRepo;
 import com.example.android.lifecycleawaregithubsearch.data.LoadingStatus;
-import com.example.android.lifecycleawaregithubsearch.utils.GitHubUtils;
+import com.example.android.lifecycleawaregithubsearch.utils.FishUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity implements GitHubSearchAdapter.OnSearchResultClickListener {
+public class MainActivity extends AppCompatActivity implements FishSearchAdapter.OnSearchResultClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SEARCH_RESULTS_LIST_KEY = "MainActivity.searchResultsList";
 
@@ -47,18 +48,19 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
     private ProgressBar loadingIndicatorPB;
     private TextView errorMessageTV;
 
-    private GitHubSearchAdapter githubSearchAdapter;
-    private GitHubSearchViewModel githubSearchViewModel;
+    //private GitHubSearchAdapter githubSearchAdapter;
+   // private GitHubSearchViewModel githubSearchViewModel;
+
+    private FishSearchViewModel fishSearchViewModel;
+    private FishSearchAdapter fishSearchAdapter;
 
     private RequestQueue requestQueue;
 
-    private ArrayList<GitHubRepo> searchResultsList;
+    private ArrayList<FishData> searchResultList;
+   // private ArrayList<GitHubRepo> searchResultsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
 
 
         Log.d(TAG, "onCreate()");
@@ -73,25 +75,26 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
         this.searchResultsRV.setLayoutManager(new LinearLayoutManager(this));
         this.searchResultsRV.setHasFixedSize(true);
 
-        this.githubSearchAdapter = new GitHubSearchAdapter(this);
-        this.searchResultsRV.setAdapter(this.githubSearchAdapter);
+        this.fishSearchAdapter = new FishSearchAdapter(this);
+        this.fishSearchAdapter = new FishSearchAdapter(this);
+        this.searchResultsRV.setAdapter(this.fishSearchAdapter);
 
 //        this.requestQueue = Volley.newRequestQueue(this);
 
-        this.githubSearchViewModel = new ViewModelProvider(this)
-                .get(GitHubSearchViewModel.class);
+        this.fishSearchViewModel = new ViewModelProvider(this)
+                .get(FishSearchViewModel.class);
 
-        this.githubSearchViewModel.getSearchResults().observe(
+        this.fishSearchViewModel.getSearchResults().observe(
                 this,
-                new Observer<List<GitHubRepo>>() {
+                new Observer<List<FishData>>() {
                     @Override
-                    public void onChanged(List<GitHubRepo> gitHubRepos) {
-                        githubSearchAdapter.updateSearchResults(gitHubRepos);
+                    public void onChanged(List<FishData> fishes) {
+                        fishSearchAdapter.updateSearchResults(fishes);
                     }
                 }
         );
 
-        this.githubSearchViewModel.getLoadingStatus().observe(
+        this.fishSearchViewModel.getLoadingStatus().observe(
                 this,
                 new Observer<LoadingStatus>() {
                     @Override
@@ -116,13 +119,19 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
             @Override
             public void onClick(View v) {
                 String searchQuery = searchBoxET.getText().toString();
-                if (!TextUtils.isEmpty(searchQuery)) {
+               // if (!TextUtils.isEmpty(searchQuery)) {
 //                    doGitHubSearch(searchQuery);
-                    githubSearchViewModel.loadSearchResults(searchQuery);
-                }
+                //String url = FishUtils.buildGitHubSearchURL(searchQuery);
+
+                fishSearchViewModel.loadSearchResults(searchQuery);
+                Log.d(TAG, "search query is" + searchQuery);
+                //}
 
             }
         });
+
+
+
 
 //        if (savedInstanceState != null && savedInstanceState.containsKey(SEARCH_RESULTS_LIST_KEY)) {
 //            this.searchResultsList = (ArrayList) savedInstanceState.getSerializable(SEARCH_RESULTS_LIST_KEY);
@@ -220,10 +229,10 @@ public class MainActivity extends AppCompatActivity implements GitHubSearchAdapt
 //    }
 
     @Override
-    public void onSearchResultClicked(GitHubRepo repo) {
-        Log.d(TAG, "Search result clicked: " + repo.name);
-        Intent intent = new Intent(this, RepoDetailActivity.class);
-        intent.putExtra(RepoDetailActivity.EXTRA_GITHUB_REPO, repo);
-        startActivity(intent);
+    public void onSearchResultClicked(FishData fish) {
+     //   Log.d(TAG, "Search result clicked: " + fish.species_name);
+        //Intent intent = new Intent(this, RepoDetailActivity.class);
+        //intent.putExtra(RepoDetailActivity.EXTRA_GITHUB_REPO, repo);
+        //startActivity(intent);
     }
 }
