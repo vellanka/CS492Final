@@ -14,5 +14,10 @@
     <string name="pref_favAnimal_key" translatable="false">pref_favAnimal</string>
     <string name="pref_favAnimal_default" translatable="false">blue-whale</string>
 
-    <string name="share_repo_text">Check out this GitHub repo I found in the CS 492 App 🤓 %1$s (%2$s)</string>
+    <string name="share_animal_text">Check out this animal I found in the Fish Search App: (%1$s)!</string>
+    <string name="population_text">Population: </string>
+    <string name="population_text_status">Population Status: </string>
+    <string name="fishing_rate">Fishing Rate: </string>
+    <string name="location">Location: </string>
+
 </resources>

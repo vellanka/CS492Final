@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FishData implements Serializable {
 
@@ -12,12 +13,14 @@ public class FishData implements Serializable {
 
     @SerializedName("Habitat")
     public String habitat;
-/*
+
     @SerializedName("Location")
     public String location;
 
+    /*
     @SerializedName("NOAA Fisheries Region")
     public String fisheries_region;
+    */
 
     @SerializedName("Population")
     public String population;
@@ -25,36 +28,36 @@ public class FishData implements Serializable {
     @SerializedName("Scientific Name")
     public String scientific_name;
 
+    @SerializedName("Quote Background Color")
+    public String background_color;
+
+    //HTML
+    @SerializedName("Population Status")
+    public String populationStatus;
+
+    @SerializedName("Fishing Rate")
+    public String fishingRate;
+
+    @SerializedName("Color")
+    public String color;
+
+    @SerializedName("Species Aliases")
+    public String aliases;
+
+    /*
     @SerializedName("Availability")
     public String availability;
+*/
 
-    @SerializedName("Calories")
-    public String calories;
 
-    @SerializedName("Carbohydrate")
-    public String carbs;
-
-    @SerializedName("Cholesterol")
-    public String cholesterol;
-
+     //HTML
     @SerializedName("Physical Description")
     public String physical_description;
 
-    @SerializedName("Health Benefits")
-    public String health_benefits;
-
-    @SerializedName("Protein")
-    public String protein;
-
-    @SerializedName("Taste")
-    public String taste;
-
-    @SerializedName("Texture")
-    public String texture;
 
     @SerializedName("Quote")
     public String quote;
 
     @SerializedName("Biology")
-    public String biology;*/
+    public String biology;
 }
