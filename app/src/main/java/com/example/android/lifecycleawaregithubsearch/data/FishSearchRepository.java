@@ -61,11 +61,31 @@ public class FishSearchRepository {
             this.loadingStatus.setValue(LoadingStatus.LOADING);
             Log.d(TAG, "running new search for this query: " + query);
 
-            Call<FishSearchResults> results = this.fishService.searchRepos(query);
+            //Call<FishSearchResults> results = this.fishService.searchRepos(query);
+            Call<List<FishData>> results = this.fishService.searchRepos(query);
             Log.d(TAG, "printing results: " + results.toString());
-            results.enqueue(new Callback<FishSearchResults>() {
+           // results.enqueue(new Callback<FishSearchResults>() {
+            results.enqueue(new Callback<List<FishData>>() {
                 @Override
-                public void onResponse(Call<FishSearchResults> call, Response<FishSearchResults> response) {
+                public void onResponse(Call<List<FishData>> call, Response<List<FishData>> response) {
+                    if (response.code() == 200) {
+                        Log.d(TAG, "successful response");
+                        searchResults.setValue(response.body());
+                        loadingStatus.setValue(LoadingStatus.SUCCESS);
+                    } else {
+                        Log.d(TAG, "unsuccessful response");
+                        loadingStatus.setValue(LoadingStatus.ERROR);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<FishData>> call, Throwable t) {
+                    t.printStackTrace();
+                    loadingStatus.setValue(LoadingStatus.ERROR);
+                }
+            });
+/*                @Override
+            //    public void onResponse(Call<FishSearchResults> call, Response<FishSearchResults> response) {
                     if (response.code() == 200) {
                         Log.d(TAG, "suc cessful response");
                         searchResults.setValue(response.body().items);
@@ -77,11 +97,11 @@ public class FishSearchRepository {
                 }
 
                 @Override
-                public void onFailure(Call<FishSearchResults> call, Throwable t) {
+            //    public void onFailure(Call<FishSearchResults> call, Throwable t) {
                     t.printStackTrace();
                     loadingStatus.setValue(LoadingStatus.ERROR);
                 }
-            });
+            });*/
         } else {
             Log.d(TAG, "using cached results for this query: " + query);
         }

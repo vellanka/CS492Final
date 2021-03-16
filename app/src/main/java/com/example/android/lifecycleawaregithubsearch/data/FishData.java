@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class FishData implements Serializable {
 
-    //@SerializedName("Species Name")
-    //public String species_name;
+    @SerializedName("Species Name")
+    public String species_name;
 
     @SerializedName("Habitat")
     public String habitat;

@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
 
     @Override
     public void onSearchResultClicked(FishData fish) {
-     //   Log.d(TAG, "Search result clicked: " + fish.species_name);
+        Log.d(TAG, "Search result clicked: " + fish.species_name);
         //Intent intent = new Intent(this, RepoDetailActivity.class);
         //intent.putExtra(RepoDetailActivity.EXTRA_GITHUB_REPO, repo);
         //startActivity(intent);

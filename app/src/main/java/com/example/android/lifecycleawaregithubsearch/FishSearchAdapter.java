@@ -66,7 +66,7 @@ public class FishSearchAdapter extends RecyclerView.Adapter<FishSearchAdapter.Fi
         }
 
         void bind(FishData fish){
-          //  this.searchResultTV.setText(fish.species_name);
+            this.searchResultTV.setText(fish.species_name);
 
     }
 
