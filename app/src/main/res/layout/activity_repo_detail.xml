@@ -48,11 +48,18 @@
             />
 
 
-        <!-- image -->
+        <ImageView
+            android:layout_below="@id/background_color"
+            android:id ="@+id/source_image"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:contentDescription="@string/source_image_description"
+            android:padding="16dp"
+            />
 
 
         <TextView
-            android:layout_below="@+id/background_color"
+            android:layout_below="@+id/source_image"
             android:paddingLeft="4dp"
             android:paddingTop="8dp"
             android:id="@+id/population"

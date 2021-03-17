@@ -14,6 +14,10 @@ public class FishData implements Serializable {
     @SerializedName("Habitat")
     public String habitat;
 
+    @SerializedName("Species Illustration Photo")
+    public ImageGallery imageGalleries;
+
+
     @SerializedName("Location")
     public String location;
 

@@ -12,11 +12,13 @@ import android.provider.Telephony;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.lifecycleawaregithubsearch.data.FishData;
 import com.example.android.lifecycleawaregithubsearch.data.GitHubRepo;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -40,7 +42,8 @@ public class FishDetailActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra(EXTRA_FISHDATA)) {
             this.fishData = (FishData)intent.getSerializableExtra(EXTRA_FISHDATA);
             //Log.d(TAG, "Got repo with name: " + repo.name);
-
+            //Log.d(TAG, "This is the info we got from Image Gallery: " + this.fishData.imageGalleries[0].alternate_title );
+            //Log.d(TAG, "This is the image url we got from Image Gallery: " + this.fishData.imageGalleries[0].image_source );
             //TextView repoNameTV = findViewById(R.id.tv_repo_name);
            // TextView repoStarsTV = findViewById(R.id.tv_repo_stars);
             //TextView repoDescriptionTV = findViewById(R.id.tv_repo_description);
@@ -48,6 +51,7 @@ public class FishDetailActivity extends AppCompatActivity {
             TextView fishnameTV = findViewById(R.id.fish_name);
             TextView scientificnameTV = findViewById(R.id.scientific_name);
             TextView backgroundColor = findViewById(R.id.background_color);
+            ImageView sourceImage = findViewById(R.id.source_image);
             TextView population = findViewById(R.id.population);
             TextView fishingRate = findViewById(R.id.fishingRate);
             TextView location = findViewById(R.id.location);
@@ -62,6 +66,9 @@ public class FishDetailActivity extends AppCompatActivity {
             location.setText(getString(R.string.location) + " " + parseHtml(fishData.location));
             fishingRate.setText(getString(R.string.fishing_rate) + " " + fishData.fishingRate);
             backgroundColor.setBackgroundColor(Color.parseColor(fishData.background_color));
+            if (fishData.imageGalleries.image_source != null) {
+                Picasso.get().load(fishData.imageGalleries.image_source).resize(750, 0).into(sourceImage);
+            }
             scientificnameTV.setBackgroundColor(Color.parseColor(fishData.background_color));
             fishnameTV.setBackgroundColor(Color.parseColor(fishData.background_color));
             fishnameTV.setText(fishData.species_name);

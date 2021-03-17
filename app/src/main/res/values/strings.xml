@@ -20,4 +20,6 @@
     <string name="fishing_rate">Fishing Rate: </string>
     <string name="location">Location: </string>
 
+    <string name="source_image_description">Description: </string>
+
 </resources>
