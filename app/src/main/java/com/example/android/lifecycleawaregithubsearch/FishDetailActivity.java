@@ -12,17 +12,20 @@ import android.provider.Telephony;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.lifecycleawaregithubsearch.data.FishData;
+import com.example.android.lifecycleawaregithubsearch.OnSwipeTouchListener;
 import com.example.android.lifecycleawaregithubsearch.data.GitHubRepo;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
-public class FishDetailActivity extends AppCompatActivity {
+public class FishDetailActivity extends AppCompatActivity  {
     public static final String EXTRA_FISHDATA = "FishData";
 
     private static final String TAG = FishDetailActivity.class.getSimpleName();
@@ -65,6 +68,7 @@ public class FishDetailActivity extends AppCompatActivity {
 
             location.setText(getString(R.string.location) + " " + parseHtml(fishData.location));
             fishingRate.setText(getString(R.string.fishing_rate) + " " + fishData.fishingRate);
+            //Some of the image galleries contain nothing
             backgroundColor.setBackgroundColor(Color.parseColor(fishData.background_color));
             if (fishData.imageGalleries.image_source != null) {
                 Picasso.get().load(fishData.imageGalleries.image_source).resize(750, 0).into(sourceImage);
@@ -83,6 +87,26 @@ public class FishDetailActivity extends AppCompatActivity {
 //            repoStarsTV.setText(String.valueOf(repo.stars));
 //            repoDescriptionTV.setText(repo.description);
         }
+        RelativeLayout relativeLayout = findViewById(R.id.detail_main_activity);
+        relativeLayout.setOnTouchListener(new OnSwipeTouchListener(FishDetailActivity.this) {
+            public void onSwipeTop() {
+                Toast.makeText(FishDetailActivity.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onSwipeRight() {
+                Log.d(TAG, "creating new intent for: " + fishData.species_name );
+                Intent intent1 = new Intent(FishDetailActivity.this, FishDescriptionActivity.class);
+                intent1.putExtra(FishDescriptionActivity.EXTRA_FISHDATA, fishData);
+                startActivity(intent1);
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(FishDetailActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(FishDetailActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     @Override
@@ -163,4 +187,5 @@ public class FishDetailActivity extends AppCompatActivity {
         }
         return output;
     }
+
 }

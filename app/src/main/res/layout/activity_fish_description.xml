@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FishDescriptionActivity">
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <RelativeLayout
+           android:id="@+id/detail_main_activity"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:overScrollMode="ifContentScrolls"
+           android:scrollbarStyle="insideOverlay"
+           android:scrollbars="vertical"
+           android:orientation="horizontal">
+           <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_fish_name"
+           android:textColor="@color/white"
+           android:layout_alignParentTop="true"
+           android:layout_centerVertical="true"
+           android:paddingLeft="4dp"
+           android:textAppearance="?attr/textAppearanceHeadline4" />
+           <TextView
+               android:layout_below="@id/tv_fish_name"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_nutrition_text"
+               android:text="Nutritional Information"
+               android:textColor="@color/white"
+               android:textAppearance="?attr/textAppearanceSubtitle2"/>
+
+           <TextView
+               android:layout_below="@id/tv_nutrition_text"
+               android:layout_width="match_parent"
+               android:layout_height="12dp"
+               android:id="@+id/background_color"
+               />
+
+           <TextView
+               android:layout_below="@+id/background_color"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_serving_size"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+           android:layout_below="@+id/tv_serving_size"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/tv_servings"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_servings"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_calories"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_calories"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_fat_total"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_fat_total"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_fatty_acids"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_fatty_acids"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_cholesterol"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_cholesterol"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_sodium"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_sodium"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_carbohydrate"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_carbohydrate"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_fiber"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_fiber"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_sugars"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+           <TextView
+               android:layout_below="@+id/tv_sugars"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/tv_protein"
+               android:textAppearance="?attr/textAppearanceBody1"/>
+
+
+
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>

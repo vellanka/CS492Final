@@ -19,6 +19,9 @@
             android:name="com.example.android.lifecycleawaregithubsearch.FishDetailActivity"
             android:parentActivityName="com.example.android.lifecycleawaregithubsearch.MainActivity">
         </activity>
+        <activity android:name="com.example.android.lifecycleawaregithubsearch.FishDescriptionActivity"
+            android:parentActivityName="com.example.android.lifecycleawaregithubsearch.FishDetailActivity">
+        </activity>
         <activity
             android:name="com.example.android.lifecycleawaregithubsearch.MainActivity"
             android:launchMode="singleTop">

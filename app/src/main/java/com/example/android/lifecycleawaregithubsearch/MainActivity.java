@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -131,8 +132,6 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
         });
 
 
-
-
 //        if (savedInstanceState != null && savedInstanceState.containsKey(SEARCH_RESULTS_LIST_KEY)) {
 //            this.searchResultsList = (ArrayList) savedInstanceState.getSerializable(SEARCH_RESULTS_LIST_KEY);
 //            this.githubSearchAdapter.updateSearchResults(this.searchResultsList);
@@ -231,9 +230,6 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
     @Override
     public void onSearchResultClicked(FishData fish) {
         Log.d(TAG, "Search result clicked: " + fish.species_name);
-
-
-
         Intent intent = new Intent(this, FishDetailActivity.class);
         intent.putExtra(FishDetailActivity.EXTRA_FISHDATA, fish);
         startActivity(intent);
