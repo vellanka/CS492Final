@@ -7,12 +7,12 @@
 
     <string name="action_profile_title">Profile</string>
 
-    <string name="pref_userName_title">Your name.</string>
+    <string name="pref_userName_title">Your name</string>
     <string name="pref_userName_key" translatable="false">pref_userName</string>
-    <string name="pref_userName_default">Animal Lover</string>
-    <string name="pref_favAnimal_title">Your favorite animal.</string>
-    <string name="pref_favAnimal_key" translatable="false">pref_favAnimal</string>
-    <string name="pref_favAnimal_default" translatable="false">blue-whale</string>
+    <string name="pref_userName_default">Nemo</string>
+    <string name="pref_favAnimal_title">Your favorite seafood.</string>
+    <string name="pref_favAnimal_key" translatable="false">pref_favFish</string>
+    <string name="pref_favAnimal_default" translatable="false"></string>
 
     <string name="share_animal_text">Check out this animal I found in the Fish Search App: (%1$s)!</string>
     <string name="population_text">Population: </string>

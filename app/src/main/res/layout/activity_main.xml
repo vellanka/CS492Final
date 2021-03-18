@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:hint="Search for a certain fish" />
+        android:hint="Search for a fish or type all" />
 
     <Button
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:text="Do Search"/>
+        android:text="Lets Get Swimming"/>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -5,8 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android.lifecycleawaregithubsearch.data.FishData;
@@ -85,6 +88,37 @@ public class FishDescriptionActivity extends AppCompatActivity {
 
        }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.repo_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                shareNutrition();
+                return true;
+            case R.id.action_favorite:
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    private void shareNutrition() {
+        if (this.fishdata != null) {
+            String shareText = "Hey! Lets have some " + fishdata.species_name + " for dinner: There are " + fishdata.servings + " servings and " + fishdata.calories + " colories. The macronutrient values are: " + fishdata.protein_content + " protein, " + fishdata.carbohydrate + " carbs, and " + fishdata.fat + " fats. Enjoy!";
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, shareText);
+            intent.setType("text/plain");
+
+            Intent chooserIntent = Intent.createChooser(intent, null);
+            startActivity(chooserIntent);
+        }
     }
 
 }

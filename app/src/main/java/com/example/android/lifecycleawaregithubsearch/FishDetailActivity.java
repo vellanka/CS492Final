@@ -27,12 +27,14 @@ import org.w3c.dom.Text;
 
 public class FishDetailActivity extends AppCompatActivity  {
     public static final String EXTRA_FISHDATA = "FishData";
-
+    public static String favFish;
     private static final String TAG = FishDetailActivity.class.getSimpleName();
+    private Toast favorite;
 
     private Toast errorToast;
-
+    private boolean isFavorite;
     private FishData fishData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class FishDetailActivity extends AppCompatActivity  {
         //TODO
         //MAKE LAYOUT
         setContentView(R.layout.activity_repo_detail);
+        isFavorite = false;
+
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(EXTRA_FISHDATA)) {
@@ -107,11 +111,21 @@ public class FishDetailActivity extends AppCompatActivity  {
             }
 
         });
+
+        if (MainActivity.sharedPreferences.getString("pref_favFish", "").equals(fishData.species_name)){
+            isFavorite = true;
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.repo_detail, menu);
+        if (isFavorite){
+            getMenuInflater().inflate(R.menu.repo_detail_favorite, menu);
+        }
+        else {
+            getMenuInflater().inflate(R.menu.repo_detail, menu);
+        }
+
         return true;
     }
 
@@ -121,11 +135,47 @@ public class FishDetailActivity extends AppCompatActivity  {
             case R.id.action_share:
                 shareRepo();
                 return true;
+            case R.id.action_favorite:
+                toggleFavorite(item);
+              //  shareRepo();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void toggleFavorite(MenuItem menuItem){
+
+
+        if (this.fishData != null){
+            this.isFavorite = !this.isFavorite;
+            menuItem.setCheckable(this.isFavorite);
+            if (this.isFavorite){
+                menuItem.setIcon(R.drawable.ic_star_full);
+                if (this.favorite != null){
+                    this.favorite.cancel();
+                }
+                this.favorite = Toast.makeText(this, "You have just selected " + fishData.species_name + " as your favorite seafood!", Toast.LENGTH_LONG);
+                this.favorite.show();
+
+                favFish = this.fishData.species_name;
+            }
+            else{
+                menuItem.setIcon(R.drawable.ic_baseline_star_border_24);
+                if (this.favorite != null){
+                    this.favorite.cancel();
+                }
+                this.favorite = Toast.makeText(this, "You have just removed " + fishData.species_name + " as your favorite...", Toast.LENGTH_LONG);
+                this.favorite.show();
+                favFish = "";
+
+            }
+
+            MainActivity.sharedPreferences.edit().putString("pref_favFish", favFish).apply();
+
+
+        }
+    }
     private void viewRepoOnWeb() {
         if (this.fishData != null) {
             Uri githubRepoUri = Uri.parse(this.fishData.species_name);

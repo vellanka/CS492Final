@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity implements FishSearchAdapter.OnSearchResultClickListener {
+public class MainActivity extends AppCompatActivity implements FishSearchAdapter.OnSearchResultClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SEARCH_RESULTS_LIST_KEY = "MainActivity.searchResultsList";
 
@@ -49,11 +51,15 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
     private ProgressBar loadingIndicatorPB;
     private TextView errorMessageTV;
 
+    public String currentFavoriteFish;
+
     //private GitHubSearchAdapter githubSearchAdapter;
    // private GitHubSearchViewModel githubSearchViewModel;
 
     private FishSearchViewModel fishSearchViewModel;
     private FishSearchAdapter fishSearchAdapter;
+
+    public static SharedPreferences sharedPreferences;
 
     private RequestQueue requestQueue;
 
@@ -95,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
                 }
         );
 
+
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        this.sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
         this.fishSearchViewModel.getLoadingStatus().observe(
                 this,
                 new Observer<LoadingStatus>() {
@@ -130,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
 
             }
         });
+
+        //this.currentFavoriteFish = onSharedPreferenceChanged(this, "pref_favFish");
+        this.currentFavoriteFish = this.sharedPreferences.getString("pref_favFish", "");
+       // if (this.currentFavoriteFish != )
+
 
 
 //        if (savedInstanceState != null && savedInstanceState.containsKey(SEARCH_RESULTS_LIST_KEY)) {
@@ -174,7 +189,9 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy()");
+        this.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
+
     }
 
     @Override
@@ -233,5 +250,13 @@ public class MainActivity extends AppCompatActivity implements FishSearchAdapter
         Intent intent = new Intent(this, FishDetailActivity.class);
         intent.putExtra(FishDetailActivity.EXTRA_FISHDATA, fish);
         startActivity(intent);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("pref_favFish")){
+            this.currentFavoriteFish = this.sharedPreferences.getString("pref_favFish", "");
+            Log.d(TAG, "CurrentFavoriteFish" + currentFavoriteFish);
+        }
     }
 }
